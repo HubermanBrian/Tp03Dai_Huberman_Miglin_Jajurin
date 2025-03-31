@@ -9,7 +9,7 @@ monedaDelPais = obtenerMoneda(codigoPais);
 console.log(`La moneda del país ${codigoPais} es: ${monedaDelPais}`);
 
 
-codigoPais = 'US';
+codigoPais = 'UZA';
 
 monedaDelPais = obtenerMoneda(codigoPais);
 

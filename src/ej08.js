@@ -1,27 +1,10 @@
-import {OMDBSearchByPage} from './modules/omdb-wrapper.js'
-import axios from "axios";
+import { OMDBSearchByPage, OMDBSearchComplete, OMDBGetByImdbID } from './modules/OMBDWrapper.js';
 
-
-let respuesta = await Test();
-
-console.log('respuesta', respuesta);
-
-
-const Test = async (searchText) => {
-
-  const requestString = `http://www.omdbapi.com/?apikey=7c62gb5e&s=cars`;
-
-  const apiResponse = await axios.get(requestString);
-
-  return apiResponse.data;
-
-};
-
-
-let resultado = null;
-
-// Test de la función OMDBSearchByPage..
-
-resultado  = await OMDBSearchByPage("cars", 1);
-
+let resultado = await OMDBSearchByPage("cars", 1);
 console.log("OMDBSearchByPage", resultado);
+
+let resultadoCompleto = await OMDBSearchComplete("cars");
+console.log("OMDBSearchComplete", resultadoCompleto);
+
+let detalles = await OMDBGetByImdbID("tt3896198");
+console.log("OMDBGetByImdbID", detalles);
