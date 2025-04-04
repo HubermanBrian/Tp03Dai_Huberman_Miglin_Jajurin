@@ -1,5 +1,5 @@
-import { getCurrencyAbbreviation } from 'currency-map-country';
-import { getCountryByAbbreviation } from 'currency-map-country';
+import { getCountryByAbbreviation, getCurrencyAbbreviation } from 'currency-map-country';
+
 let monedaDelPais, codigoPais;
 
 codigoPais = 'AR';

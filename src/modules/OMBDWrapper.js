@@ -6,6 +6,7 @@ const agent = new https.Agent({
 });
 
 const APIKEY = "82222212";
+let searchText = ""
 
 const OMDBSearchByPage = async (searchText, page = 1) => {
     let returnObject = {
@@ -15,7 +16,7 @@ const OMDBSearchByPage = async (searchText, page = 1) => {
     };
 
     try {
-        const response = await axios.get('https://www.omdbapi.com/', {
+        let response = await axios.get('https://www.omdbapi.com/', {
             params: {
                 s: searchText,
                 page: page,
@@ -24,7 +25,7 @@ const OMDBSearchByPage = async (searchText, page = 1) => {
             httpsAgent: agent
         });
 
-        if (response.data.Response === "True") {
+        if (response.data.response === "True") {
             returnObject.respuesta = true;
             returnObject.cantidadTotal = parseInt(response.data.totalResults, 10);
             returnObject.datos = response.data.Search;
@@ -48,10 +49,12 @@ const OMDBSearchComplete = async (searchText) => {
         datos: []
     };
 
-    let page = 1;
     let totalResults = 0;
 
     try {
+
+        let response = await OMDBSearchByPage(searchText, 1)
+        /*
         const firstResponse = await axios.get('https://www.omdbapi.com/', {
             params: {
                 s: searchText,
@@ -60,15 +63,18 @@ const OMDBSearchComplete = async (searchText) => {
             },
             httpsAgent: agent
         });
+        */
 
-        if (firstResponse.data.Response === "True") {
-            totalResults = parseInt(firstResponse.data.totalResults, 10);
+        if (response.data.response === "True") {
+            totalResults = parseInt(response.data.totalResults, 10);
             returnObject.respuesta = true;
             returnObject.cantidadTotal = totalResults;
-            returnObject.datos = firstResponse.data.Search;
+            returnObject.datos = response.data.Search;
 
             const totalPages = Math.ceil(totalResults / 10);
             for (let i = 2; i <= totalPages; i++) {
+                let response = await OMDBSearchByPage(searchText, i)
+                /*
                 const response = await axios.get('https://www.omdbapi.com/', {
                     params: {
                         s: searchText,
@@ -78,7 +84,8 @@ const OMDBSearchComplete = async (searchText) => {
                     httpsAgent: agent
                 });
 
-                if (response.data.Response === "True") {
+                */
+                if (response.data.response === "True") {
                     returnObject.datos = returnObject.datos.concat(response.data.Search);
                 }
             }
@@ -103,15 +110,17 @@ const OMDBGetByImdbID = async (imdbID) => {
     };
 
     try {
-        const response = await axios.get('https://www.omdbapi.com/', {
+        
+        let response = await OMDBSearchByPage(searchText, i)
+       /* const response = await axios.get('https://www.omdbapi.com/', {
             params: {
                 i: imdbID,
                 apikey: APIKEY
             },
             httpsAgent: agent
         });
-
-        if (response.data.Response === "True") {
+        */
+        if (response.data.response === "True") {
             returnObject.respuesta = true;
             returnObject.datos = response.data;
         } else {
